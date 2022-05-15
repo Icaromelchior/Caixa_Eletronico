@@ -2,6 +2,7 @@ from getpass import getpass
 
 from requests import get
 from . import  admin,clientes
+from ..import exeptions, usuarios
 
 def menu_principal():
   opcoes = {
@@ -25,11 +26,26 @@ def menu_principal():
         username = input('Usuário: ')
         senha = getpass('Senha: ')
 
-        if 'Usuário é admin':
-          admin.menu_admin()
+        try:
+            u = usuarios.login(username,senha)
+        
+        except exeptions.Usuariobloqueado:
+          print('Usuário bloqueado - entrar em contato com a central')
+
+        except exeptions.CredenciaisInvalidas as ci:
+          tentativas = ci.args[0]
+          print('Credenciais inválidas')
+
+          if tentativas > 0:
+            print(f"Tentativas restantes antes do bloqueio de usuário: {3 - tentativas}")
 
         else:
-          clientes.menu_cliente()
+
+            if u.admin:
+              admin.menu_admin(u)
+
+            else:
+              clientes.menu_cliente(u)
     
     elif escolha == 'S':
       print('Obrigado por usar o caixa milionario. ')
