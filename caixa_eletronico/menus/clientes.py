@@ -1,2 +1,2 @@
-def menu_cliente():
+def menu_cliente(cliente):
   pass
