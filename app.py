@@ -1,8 +1,8 @@
-from caixa_eletronico.menus.principal import menu_principa
+from caixa_eletronico.menus.principal import menu_principal
 
 
 def main():
-   menu_pricipal()
+   menu_principal()
 
 
 

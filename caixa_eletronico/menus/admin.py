@@ -1,2 +1,2 @@
 def menu_admin():
-  pass
+  print('menu admin')
