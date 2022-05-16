@@ -1,57 +1,52 @@
 from getpass import getpass
 
-from requests import get
-from . import  admin,clientes
-from ..import exeptions, usuarios
+from . import admin, cliente
+from .. import exceptions, usuarios, contas
+
 
 def menu_principal():
-  opcoes = {
-      'L': 'Fazer Login',
-      'S': 'Sair e encerrar o programa'
+    opcoes = {
+        'L': 'Fazer login',
+        'S': 'Sair e encerrar o programa'
+    }
 
+    while True:
+        print()
+        print('=' * 10, 'MENU PRINCIPAL', '=' * 10)
+        print('Seja bem-vindo ao caixa automático. Selecione uma opção para continuar.')
 
-  }
+        for (op, descricao) in opcoes.items():
+            print(f"{op} - {descricao}")
 
-  while True:
-    print()
-    print("=" * 10, 'MENU PRINCIPAL',"=" * 10)
-    print('Seja ben-vindo ao caixa milionario. selecione uma opção para continuar. ')
+        escolha = input('Opção: ').strip().upper()
 
-    for (op, descricao) in opcoes.items():
-      print(f"{op} - {descricao}")
+        if escolha == 'L':
+            username = input('Usuário: ')
+            senha = getpass('Senha: ')
 
-    escolha = input('Opção: ').strip().upper()
+            try:
+                u = usuarios.login(username, senha)
 
-    if escolha == 'L':
-        username = input('Usuário: ')
-        senha = getpass('Senha: ')
+            except exceptions.UsuarioBloqueado:
+                print('Usuário bloqueado - favor entrar em contato com a central.')
 
-        try:
-            u = usuarios.login(username,senha)
-        
-        except exeptions.Usuariobloqueado:
-          print('Usuário bloqueado - entrar em contato com a central')
+            except exceptions.CredenciaisInvalidas as ci:
+                tentativas = ci.args[0]
 
-        except exeptions.CredenciaisInvalidas as ci:
-          tentativas = ci.args[0]
-          print('Credenciais inválidas')
-
-          if tentativas > 0:
-            print(f"Tentativas restantes antes do bloqueio de usuário: {3 - tentativas}")
-
-        else:
-
-            if u.admin:
-              admin.menu_admin(u)
+                print('Credenciais inválidas.')
+                if tentativas > 0:
+                    print(f'Tentativas restantes antes do bloqueio de usuário: {3 - tentativas}')
 
             else:
-              clientes.menu_cliente(u)
-    
-    elif escolha == 'S':
-      print('Obrigado por usar o caixa milionario. ')
-      break
+                if u.admin:
+                    admin.menu_admin(u)
 
-    else:
-      print('Digite uma opção valida. ')
+                else:
+                    cliente.menu_cliente(u)
 
-    
+        elif escolha == 'S':
+            print('Obrigado por usar o nosso sistema. Até logo!')
+            break
+
+        else:
+            print('Por favor entre com uma opção válida.')
