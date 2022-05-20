@@ -4,7 +4,7 @@
 
 ## Sistema de caixa eletrôni proposto no curso Python fundamentals da 4Linux
 
-- Sistema foi proposto pro aluno aplicar oque foi passado no curso e praticar
+- Sistema foi proposto para o aluno aplicar oque foi passado no curso e praticar
 
 ## Sistema epenas é executado em terminal
 
