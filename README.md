@@ -54,7 +54,7 @@ verifica se o cliente está desbloqueado para acesso.
 
 # Banco de Dados
 
-A aplicação esta no Banco de dados Sqlite3 local, ja vem intslado por padrão no Python.
+A aplicação esta no Banco de dados Sqlite3.
 
 ## para duvidas e informações entrar em contato:
 
